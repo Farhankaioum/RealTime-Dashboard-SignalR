@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Web.Hubs;
 
 namespace Web
 {
@@ -23,6 +24,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddControllersWithViews();
         }
 
@@ -45,6 +47,10 @@ namespace Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(options => {
+                options.MapHub<ViewHub>("/hubs/view");
+            });
 
             app.UseEndpoints(endpoints =>
             {
